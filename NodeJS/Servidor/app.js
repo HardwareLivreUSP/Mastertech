@@ -1,17 +1,82 @@
-var PORT = 33333;
+var net = require('net');
+var inquirer = require("inquirer");
+var os = require('os');
+var clients = [];
+
+// ------------------------------   IP Servidor  ------------------------------
+// Esse código é só para mostrar o ip da sua máquina na rede local.
+var interfaces = os.networkInterfaces();
+
+for (var k in interfaces)
+  for (var k2 in interfaces[k])
+    if (interfaces[k][k2].family === 'IPv4' && !interfaces[k][k2].internal)
+      console.log("IP local: %s", interfaces[k][k2].address);
+
+// -------------------------------   Servidor   -------------------------------
+var PORT =  process.env.PORT || 4000;
 var HOST = '127.0.0.1';
 
-var dgram = require('dgram');
-var server = dgram.createSocket('udp4');
+var server = net.createServer(function(socket) {
+	socket.pipe(socket);
 
-server.on('listening', function () {
-    var address = server.address();
-    console.log('UDP Server listening on ' + address.address + ":" + address.port);
+  // Qunado um cliente entra no servidor, salvamos ele na lista (data em UNIX)
+  socket.date =  (new Date).getTime();
+
+  // Adiciona ele na lista
+  clients.push(socket);
+
+  // Quando um clientes desconectar, tiramos ele da lista
+  socket.on('end', function () {
+    clients.splice(clients.indexOf(socket), 1);
+  });
+
+  // Qunado um cliente manda uma informação
+  socket.on('data', function (data) {
+    var valor = 1024 - parseInt("" + data);
+    socket.write("" + valor);
+    socket.write("\n");
+  });
 });
 
-server.on('message', function (message, remote) {
-    console.log(remote.address + ':' + remote.port +' - ' + message);
-
+server.on('error', function(err){
+  console.log(err);
 });
 
-server.bind(PORT, HOST);
+server.listen(PORT, HOST, function() {
+  address = server.address();
+  console.log("\nServidor em %s:%s\n",address.address, address.port);
+  pergunta();
+});
+
+// -------------------------------     Menu     -------------------------------
+var pergunta = function () {
+  inquirer.prompt([{
+    type: "list",
+    name: "opcao",
+    message: "O que você quer saber?",
+    choices: [
+      {"name": "Lista de clientes conectados.", "value": 1},
+      {"name": "Número de clientes conectados.", "value": 2},
+    ]
+  }], function( answers ) {
+    switch(answers.opcao) {
+    case 2:
+        console.log("\nExistem %s clientes conectados.\n", clients.length);
+        break;
+    case 1:
+        if (clients.length > 0) {
+          var data_atual = (new Date).getTime();
+          console.log("\nCliente \t\t\t Tempo Conexão");
+          clients.forEach(function (client) {
+            console.log("%s:%s \t\t %d s", client.remoteAddress, client.remotePort, (data_atual-client.date)/1000);
+          });
+          console.log("\n");
+        } else {
+          console.log("\nNão existem clientes conectados!\n");
+        }
+        break;
+    default:
+    }
+    pergunta();
+  });
+}
