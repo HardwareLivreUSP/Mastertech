@@ -11,7 +11,7 @@
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 Twitter twitter("<<< coloque seu token >>>");
-String msg = "Oi gente, sou um robô e estou lendo ";
+String msg = "#mastertech_iot Oi gente, sou um robô e estou lendo ";
 
 void setup() {
   Serial.begin(9600);
