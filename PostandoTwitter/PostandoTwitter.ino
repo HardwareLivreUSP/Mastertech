@@ -10,22 +10,17 @@
 // sua Galielo
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
-// Isse IP será usudo caso não consiga obter um IP
-// dinâmico
-IPAddress ip(0,0,0,0);
-
 Twitter twitter("<<< coloque seu token >>>");
 String msg = "Oi gente, sou um robô e estou lendo ";
 
 void setup() {
   Serial.begin(9600);
-
+  //system("ifup eth0");
   Serial.println("Tentando obter um IP:");
-  if (!Ethernet.begin(mac)) {
-    Serial.println("tentado manualmente");
-    Ethernet.begin(mac, ip);
+  while (!Ethernet.begin(mac)) {
+    Serial.println("Erro ao conectar");
   }
-  Serial.print("Meu endereço:");
+  Serial.print("Meu endereco:");
   Serial.println(Ethernet.localIP());
 }
 
@@ -48,6 +43,6 @@ void loop() {
   } else {
     Serial.println("Erro.");
   }
-  // Mandar em intervalos maior do esse, nunca menor
+  // Mandar em intervalos maior do esse, nunca menor!
   delay(60000);
 }
