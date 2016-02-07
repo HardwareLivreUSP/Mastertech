@@ -1,6 +1,6 @@
 /*
   Hardware Livre USP - Mastertech
-  Enviando mensagens pelo Twitter
+  Enviando mensagens por um servidor
 */
 #include <SPI.h>
 #include <Ethernet.h>
