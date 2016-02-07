@@ -27,7 +27,7 @@ const long interval = 1000;
 unsigned long previousMillis = 0;
 
 void setup() {
-	pinMode(LED_PIN , OUTPUT);
+  pinMode(LED_PIN , OUTPUT);
   Serial.begin(9600);
   system("ifup eth0");
   Serial.println("Tentando obter um IP:");
@@ -37,16 +37,16 @@ void setup() {
   Serial.print("Meu endereco:");
   Serial.println(Ethernet.localIP());
 
-	// Reserva espaço para a string
-	line.reserve(10);
+  // Reserva espaço para a string
+  line.reserve(10);
 }
 
 void loop() {
   // Realiza a conexao e leitura do servidor
   if (client.connected()) {
     if (client.available()) {
-			char c = client.read();
-			line += c;
+      char c = client.read();
+      line += c;
       if (c == '\n')
         line = "";
 
@@ -56,17 +56,17 @@ void loop() {
       }
       if (lendo_valor) {
         if (c == '}') {
-					int valor = line.toInt();
+          int valor = line.toInt();
           lendo_valor = false;
-		      Serial.print("Recebendo: ");
+          Serial.print("Recebendo: ");
           Serial.println(valor);
-					analogWrite(LED_PIN, valor);
+          analogWrite(LED_PIN, valor);
         }
       }
     }
   } else {
     Serial.println("Conectando ao servidor");
-		delay(1000);
+    delay(1000);
     client.connect(server, port);
   }
 
@@ -74,7 +74,7 @@ void loop() {
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
-    if(client.connected()) {
+    if (client.connected()) {
       int value = analogRead(ANALOG_PIN);
       client.println(value);
       Serial.print("Enviando: ");

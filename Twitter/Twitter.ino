@@ -28,7 +28,7 @@ void loop() {
   Serial.println("Conectando ...");
 
   msg += analogRead(ENTRADA_ANALOGICA);
-  int buffer_len = msg.length()+1;
+  int buffer_len = msg.length() + 1;
   char buffer[buffer_len];
   msg.toCharArray(buffer, buffer_len);
 

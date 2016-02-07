@@ -18,7 +18,7 @@ char channel_send[] = "tutorial1";
 char channel_receive[] = "tutorial2";
 
 void setup() {
-	pinMode(LED_PIN , OUTPUT);
+  pinMode(LED_PIN , OUTPUT);
   Serial.begin(9600);
   system("ifup eth0");
   Serial.println("Tentando obter um IP:");
@@ -28,11 +28,11 @@ void setup() {
   Serial.print("Meu endereco:");
   Serial.println(Ethernet.localIP());
 
-	PubNub.begin(pubkey, subkey);
+  PubNub.begin(pubkey, subkey);
 }
 
 void loop() {
-	send_analog_value ();
+  send_analog_value ();
   check_for_updates ();
 }
 
@@ -55,7 +55,7 @@ void check_for_updates () {
   EthernetClient *client;
   client = PubNub.history(channel_receive, 1);
   if (client) {
-		while (client->connected() && !client->available()); // Espera caractar
+    while (client->connected() && !client->available()); // Espera caractar
     int c;
     client->read();
     client->read();
