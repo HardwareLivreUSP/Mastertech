@@ -26,6 +26,7 @@ var server = net.createServer(function(socket) {
   socket.on('data', function (data) {
     var valor = parseInt(data.toString());
     if (Number.isInteger(valor)) {
+      // Essa parte é onde você adiciona a inteligência
       valor = Math.floor((1023 - valor)/4);
       socket.write("{" + valor + "}");
       socket.write("\n");
