@@ -1,7 +1,9 @@
 var net = require('net');
 var inquirer = require("inquirer");
 var os = require('os');
+var ngrok = require('ngrok');
 var clients = [];
+var authtoken = '3VF2Ln9PfRjRYwcsGQ6Pe_4rZqDcKrB1Srzrs1CGkFr';
 
 // ------------------------------   IP Servidor  ------------------------------
 // Esse código é só para mostrar o ip da sua máquina na rede local.
@@ -13,8 +15,8 @@ for (var k in interfaces)
       console.log("IP local: %s", interfaces[k][k2].address);
 
 // -------------------------------   Servidor   -------------------------------
-var PORT =  process.env.PORT || 4000;
-var HOST = '127.0.0.1';
+var PORT =  process.env.PORT || 8080;
+var HOST = process.env.IP || '0.0.0.0';
 
 var server = net.createServer(function(socket) {
 	socket.pipe(socket);
@@ -32,9 +34,12 @@ var server = net.createServer(function(socket) {
 
   // Qunado um cliente manda uma informação
   socket.on('data', function (data) {
-    var valor = 1024 - parseInt("" + data);
-    socket.write("" + valor);
-    socket.write("\n");
+    var valor = parseInt(data.toString());
+    if (Number.isInteger(valor)) {
+      valor = Math.floor((1023 - valor)/4);
+      socket.write("{" + valor + "}");
+      socket.write("\n");
+    }
   });
 });
 
@@ -42,10 +47,12 @@ server.on('error', function(err){
   console.log(err);
 });
 
-server.listen(PORT, HOST, function() {
-  address = server.address();
-  console.log("\nServidor em %s:%s\n",address.address, address.port);
-  pergunta();
+ngrok.connect({proto: 'tcp', addr: PORT, authtoken:authtoken}, function (err, url) {
+  server.listen(PORT, HOST, function() {
+    address = server.address();
+    console.log("\nServidor em %s\n", url);
+    pergunta();
+  });
 });
 
 // -------------------------------     Menu     -------------------------------

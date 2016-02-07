@@ -15,7 +15,7 @@ String msg = "Oi gente, sou um robô e estou lendo ";
 
 void setup() {
   Serial.begin(9600);
-  //system("ifup eth0");
+  system("ifup eth0");
   Serial.println("Tentando obter um IP:");
   while (!Ethernet.begin(mac)) {
     Serial.println("Erro ao conectar");

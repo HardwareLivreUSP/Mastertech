@@ -20,7 +20,7 @@ char channel_receive[] = "tutorial2";
 void setup() {
 	pinMode(LED_PIN , OUTPUT);
   Serial.begin(9600);
-  //system("ifup eth0");
+  system("ifup eth0");
   Serial.println("Tentando obter um IP:");
   while (!Ethernet.begin(mac)) {
     Serial.println("Erro ao conectar");
