@@ -5,7 +5,7 @@ Programe sua Galileo para acessar esse site:
 http://developers.agenciaideias.com.br/tempo/json/sao-paulo-SP
 ```
 
-Agora ascenda um LED a temperatura está acima de 22°C. Mais informações sobre essa API, [aqui](http://developers.agenciaideias.com.br/tempo).
+Agora acenda um LED se a temperatura está acima de 22°C. Mais informações sobre essa API, [aqui](http://developers.agenciaideias.com.br/tempo).
 
 #### Dica
 
