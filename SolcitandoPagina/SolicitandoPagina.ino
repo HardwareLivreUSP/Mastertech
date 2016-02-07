@@ -1,16 +1,17 @@
 /*
   Hardware Livre USP - Mastertech
-  Enviando mensagens pelo Twitter
+  Solicitando página web
 */
 #include <SPI.h>
 #include <Ethernet.h>
-#define ENTRADA_ANALOGICA A0
+
 // Utilize o endereço MAC que está na etiqueta branca da
 // sua Galielo
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
+char server[] = "capella.pro";
 
-char server[] = "0.tcp.ngrok.io";
+EthernetClient client;
 
 void setup() {
   Serial.begin(9600);
@@ -26,30 +27,32 @@ void setup() {
   if (client.connect(server, 80)) {
     Serial.println("Conectado ao servidor\n\n");
     client.println("GET /hi.html HTTP/1.0");
+    client.println("Host: capella.pro");
+
     client.println();
   }
   else {
-    // if you didn't get a connection to the server:
+    // Problema na conexão
     Serial.println("connection failed");
   }
 }
 
 void loop()
 {
-  // if there are incoming bytes available
-  // from the server, read them and print them:
+  // Mostrar toda a resposta
   if (client.available()) {
     char c = client.read();
     Serial.print(c);
   }
 
-  // if the server's disconnected, stop the client:
+  // Se o servidor desconectar
   if (!client.connected()) {
     Serial.println();
-    Serial.println("disconnecting.");
+      Serial.println();
+    Serial.println("Desconectando.");
     client.stop();
 
-    // do nothing forevermore:
+    // Não fazer nada jamais
     for(;;)
       ;
   }
