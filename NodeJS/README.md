@@ -7,3 +7,6 @@ Esse comando irá intalar todas os pacotes necessários para o nosso exemplo. De
 ```
 node app.js
 ```
+
+#### Desafio
+Reduzir o número de pacotes enviados. Dica, não mande valores repetidos. Um jeito de aprimorar essa aplicação é fazer com que os pacotes não trafeguem até pelo mundo, mas somente na rede local.
