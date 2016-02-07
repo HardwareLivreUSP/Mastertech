@@ -1,18 +1,8 @@
 var net = require('net');
 var inquirer = require("inquirer");
-var os = require('os');
 var ngrok = require('ngrok');
 var clients = [];
 var authtoken = '3VF2Ln9PfRjRYwcsGQ6Pe_4rZqDcKrB1Srzrs1CGkFr';
-
-// ------------------------------   IP Servidor  ------------------------------
-// Esse código é só para mostrar o ip da sua máquina na rede local.
-var interfaces = os.networkInterfaces();
-
-for (var k in interfaces)
-  for (var k2 in interfaces[k])
-    if (interfaces[k][k2].family === 'IPv4' && !interfaces[k][k2].internal)
-      console.log("IP local: %s", interfaces[k][k2].address);
 
 // -------------------------------   Servidor   -------------------------------
 var PORT =  process.env.PORT || 8080;
