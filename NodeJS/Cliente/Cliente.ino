@@ -6,7 +6,7 @@
 #include <Ethernet.h>
 
 #define ANALOG_PIN A0
-#define LED_PIN 9
+#define LED_PIN 6
 // Utilize o endereço MAC que está na etiqueta branca da
 // sua Galielo
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };

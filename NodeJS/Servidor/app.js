@@ -9,8 +9,6 @@ var PORT =  process.env.PORT || 8080;
 var HOST = process.env.IP || '0.0.0.0';
 
 var server = net.createServer(function(socket) {
-	socket.pipe(socket);
-
   // Qunado um cliente entra no servidor, salvamos ele na lista (data em UNIX)
   socket.date =  (new Date).getTime();
 
@@ -22,7 +20,7 @@ var server = net.createServer(function(socket) {
     clients.splice(clients.indexOf(socket), 1);
   });
 
-  // Qunado um cliente manda uma informação
+  // Quando um cliente manda uma informação
   socket.on('data', function (data) {
     var valor = parseInt(data.toString());
     if (Number.isInteger(valor)) {
