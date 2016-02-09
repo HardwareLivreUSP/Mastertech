@@ -46,7 +46,7 @@ server.on('error', function(err){
 
 server.listen(PORT, IP, function() {
   address = server.address();
-  console.log("\nServidor em %s\n", url);
+  console.log("\nServidor em %s:%s\n", IP, PORT);
   pergunta();
 });
 
