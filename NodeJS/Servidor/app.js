@@ -50,15 +50,16 @@ server.on('error', function(err){
   console.log(err);
 });
 
+/*
+// Solucao alternativa
 server.listen(PORT, HOST, function() {
   address = server.address();
   //console.log("\nServidor em %s\n", url);
   console.log('Informações sobre conexão: %j \n', server.address());
   pergunta();
 });
+*/
 
-/*
-// Solucao alternativa
 ngrok.connect({proto: 'tcp', addr: PORT, authtoken:authtoken}, function (err, url) {
   server.listen(PORT, HOST, function() {
     address = server.address();
@@ -66,7 +67,7 @@ ngrok.connect({proto: 'tcp', addr: PORT, authtoken:authtoken}, function (err, ur
     pergunta();
   });
 });
-*/
+
 
 // -------------------------------     Menu     -------------------------------
 var pergunta = function () {
