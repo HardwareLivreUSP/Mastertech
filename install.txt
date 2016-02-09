@@ -1,0 +1,1 @@
+sudo apt-get install libftdi* gcc cmake nmap screen minicom
