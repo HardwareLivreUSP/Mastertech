@@ -1,8 +1,18 @@
 var net = require('net');
 var inquirer = require("inquirer");
 var ngrok = require('ngrok');
+var os = require('os');
 var clients = [];
 var authtoken = '3VF2Ln9PfRjRYwcsGQ6Pe_4rZqDcKrB1Srzrs1CGkFr';
+
+// ------------------------------   IP Servidor  ------------------------------
+// Esse código é só para mostrar o ip da sua máquina na rede local.
+var interfaces = os.networkInterfaces();
+
+for (var k in interfaces)
+  for (var k2 in interfaces[k])
+    if (interfaces[k][k2].family === 'IPv4' && !interfaces[k][k2].internal)
+      console.log("\nIP local: %s", interfaces[k][k2].address);
 
 // -------------------------------   Servidor   -------------------------------
 var PORT =  process.env.PORT || 8080;
@@ -36,6 +46,15 @@ server.on('error', function(err){
   console.log(err);
 });
 
+server.listen(PORT, HOST, function() {
+  address = server.address();
+  //console.log("\nServidor em %s\n", url);
+  console.log('Informações sobre conexão: %j \n', server.address());
+  pergunta();
+});
+
+/*
+// Solucao alternativa
 ngrok.connect({proto: 'tcp', addr: PORT, authtoken:authtoken}, function (err, url) {
   server.listen(PORT, HOST, function() {
     address = server.address();
@@ -43,6 +62,7 @@ ngrok.connect({proto: 'tcp', addr: PORT, authtoken:authtoken}, function (err, ur
     pergunta();
   });
 });
+*/
 
 // -------------------------------     Menu     -------------------------------
 var pergunta = function () {
@@ -53,11 +73,15 @@ var pergunta = function () {
     choices: [
       {"name": "Lista de clientes conectados.", "value": 1},
       {"name": "Número de clientes conectados.", "value": 2},
+      {"name": "Desligar Servidor", "value": 3},
     ]
   }], function( answers ) {
     switch(answers.opcao) {
     case 2:
         console.log("\nExistem %s clientes conectados.\n", clients.length);
+        break;
+    case 3:
+        process.exit();
         break;
     case 1:
         if (clients.length > 0) {
