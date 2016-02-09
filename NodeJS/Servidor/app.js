@@ -1,7 +1,9 @@
 var net = require('net');
 var inquirer = require("inquirer");
+var ngrok = require('ngrok');
 var os = require('os');
 var clients = [];
+var authtoken = '3VF2Ln9PfRjRYwcsGQ6Pe_4rZqDcKrB1Srzrs1CGkFr';
 
 // ------------------------------   IP Servidor  ------------------------------
 // Esse código é só para mostrar o ip da sua máquina na rede local.
@@ -44,11 +46,24 @@ server.on('error', function(err){
   console.log(err);
 });
 
-server.listen(PORT, IP, function() {
+/*
+// Solucao alternativa
+server.listen(PORT, function() {
   address = server.address();
-  console.log("\nServidor em %s:%s\n", IP, PORT);
+  //console.log("\nServidor em %s\n", url);
+  console.log('Informações sobre conexão: %j \n', server.address());
   pergunta();
 });
+*/
+
+ngrok.connect({proto: 'tcp', addr: PORT, authtoken:authtoken}, function (err, url) {
+  server.listen(PORT, function() {
+    address = server.address();
+    console.log("\nServidor em %s\n", url);
+    pergunta();
+  });
+});
+
 
 // -------------------------------     Menu     -------------------------------
 var pergunta = function () {
