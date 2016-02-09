@@ -1,9 +1,7 @@
 var net = require('net');
 var inquirer = require("inquirer");
-var ngrok = require('ngrok');
 var os = require('os');
 var clients = [];
-var authtoken = '3VF2Ln9PfRjRYwcsGQ6Pe_4rZqDcKrB1Srzrs1CGkFr';
 
 // ------------------------------   IP Servidor  ------------------------------
 // Esse código é só para mostrar o ip da sua máquina na rede local.
@@ -16,7 +14,7 @@ for (var k in interfaces)
 
 // -------------------------------   Servidor   -------------------------------
 var PORT =  process.env.PORT || 8080;
-var HOST = process.env.IP || '0.0.0.0';
+var IP =  process.env.IP || "0.0.0.0";
 
 var server = net.createServer(function(socket) {
   // Qunado um cliente entra no servidor, salvamos ele na lista (data em UNIX)
@@ -38,10 +36,6 @@ var server = net.createServer(function(socket) {
       valor = Math.floor((1023 - valor)/4);
       socket.write("{" + valor + "}");
       socket.write("\n");
-    } else {
-      socket.end();
-      socket.destroy();
-      clients.splice(clients.indexOf(socket), 1);
     }
   });
 });
@@ -50,24 +44,11 @@ server.on('error', function(err){
   console.log(err);
 });
 
-/*
-// Solucao alternativa
-server.listen(PORT, HOST, function() {
+server.listen(PORT, IP, function() {
   address = server.address();
-  //console.log("\nServidor em %s\n", url);
-  console.log('Informações sobre conexão: %j \n', server.address());
+  console.log("\nServidor em %s\n", url);
   pergunta();
 });
-*/
-
-ngrok.connect({proto: 'tcp', addr: PORT, authtoken:authtoken}, function (err, url) {
-  server.listen(PORT, HOST, function() {
-    address = server.address();
-    console.log("\nServidor em %s\n", url);
-    pergunta();
-  });
-});
-
 
 // -------------------------------     Menu     -------------------------------
 var pergunta = function () {
