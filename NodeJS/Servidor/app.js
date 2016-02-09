@@ -38,6 +38,9 @@ var server = net.createServer(function(socket) {
       valor = Math.floor((1023 - valor)/4);
       socket.write("{" + valor + "}");
       socket.write("\n");
+    } else {
+      socket.end();
+      socket.destroy();
     }
   });
 });
