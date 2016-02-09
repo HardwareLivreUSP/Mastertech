@@ -41,6 +41,7 @@ var server = net.createServer(function(socket) {
     } else {
       socket.end();
       socket.destroy();
+      clients.splice(clients.indexOf(socket), 1);
     }
   });
 });
