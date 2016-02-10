@@ -23,6 +23,9 @@ void setup() {
   Serial.print("Meu endereco:");
   Serial.println(Ethernet.localIP());
 
+  // Para dar tempo de abrir o terminal
+  delay(3000);
+
   // Tenta conectar
   if (client.connect(server, 80)) {
     Serial.println("Conectado ao servidor\n\n");
