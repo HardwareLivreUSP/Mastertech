@@ -3,6 +3,10 @@ var inquirer = require("inquirer");
 var ngrok = require('ngrok');
 var os = require('os');
 var clients = [];
+
+// -----------------------------   Configuraões   -----------------------------
+var PORT =  process.env.PORT || 8080;
+var IP =  process.env.IP || "0.0.0.0";
 var authtoken = '3VF2Ln9PfRjRYwcsGQ6Pe_4rZqDcKrB1Srzrs1CGkFr';
 
 // ------------------------------   IP Servidor  ------------------------------
@@ -13,10 +17,9 @@ for (var k in interfaces)
   for (var k2 in interfaces[k])
     if (interfaces[k][k2].family === 'IPv4' && !interfaces[k][k2].internal)
       console.log("\nIP local: %s", interfaces[k][k2].address);
+console.log("IP remoto: %s", IP)
 
 // -------------------------------   Servidor   -------------------------------
-var PORT =  process.env.PORT || 8080;
-var IP =  process.env.IP || "0.0.0.0";
 
 var server = net.createServer(function(socket) {
   // Qunado um cliente entra no servidor, salvamos ele na lista (data em UNIX)
@@ -49,7 +52,7 @@ server.on('error', function(err){
 /*
 // Solucao alternativa
 server.listen(PORT, function() {
-  address = server.address();
+  var address = server.address();
   //console.log("\nServidor em %s\n", url);
   console.log('Informações sobre conexão: %j \n', server.address());
   pergunta();
@@ -58,12 +61,11 @@ server.listen(PORT, function() {
 
 ngrok.connect({proto: 'tcp', addr: PORT, authtoken:authtoken}, function (err, url) {
   server.listen(PORT, function() {
-    address = server.address();
+    var address = server.address();
     console.log("\nServidor em %s\n", url);
     pergunta();
   });
 });
-
 
 // -------------------------------     Menu     -------------------------------
 var pergunta = function () {
