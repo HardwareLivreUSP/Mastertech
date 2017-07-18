@@ -29,7 +29,7 @@ void setup() {
   // Tenta conectar
   if (client.connect(server, 80)) {
     Serial.println("Conectado ao servidor\n\n");
-    client.println("GET /hi.html HTTP/1.0");
+    client.println("GET /mastertech/hi.html HTTP/1.0");
     client.println("Host: capella.pro");
 
     client.println();
